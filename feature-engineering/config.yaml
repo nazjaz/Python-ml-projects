@@ -1,0 +1,17 @@
+# Feature Engineering Configuration
+
+# Feature engineering parameters
+feature_engineering:
+  # Default polynomial degree
+  default_polynomial_degree: 2
+  
+  # Whether to include bias term in polynomial features
+  include_bias: false
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
