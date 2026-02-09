@@ -1,0 +1,17 @@
+# Feature Scaling Configuration
+
+# Scaling parameters
+scaling:
+  # Feature range for min-max scaling [min, max]
+  min_max_range: [0, 1]
+  
+  # Whether to modify data in place (False creates copy)
+  inplace: false
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
