@@ -1,0 +1,24 @@
+# Data Augmentation Configuration
+
+# Augmentation parameters
+augmentation:
+  # Noise injection parameters
+  noise_type: "gaussian"  # Options: gaussian, uniform, laplace
+  noise_std: 0.1  # Standard deviation for noise
+  noise_mean: 0.0  # Mean for noise
+  
+  # Scaling variation parameters
+  scaling_type: "multiplicative"  # Options: multiplicative, additive, percentage
+  scaling_factor_min: 0.9  # Minimum scaling factor
+  scaling_factor_max: 1.1  # Maximum scaling factor
+  
+  # Random seed for reproducibility
+  random_state: 42
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
