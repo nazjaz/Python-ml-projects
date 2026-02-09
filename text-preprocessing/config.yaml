@@ -1,0 +1,23 @@
+# Text Preprocessing Configuration
+
+# Preprocessing parameters
+preprocessing:
+  # Convert text to lowercase
+  lowercase: true
+  
+  # Remove stop words
+  remove_stopwords: true
+  
+  # Apply stemming
+  stemming: true
+  
+  # Custom stop words to add (optional)
+  custom_stop_words: []
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
