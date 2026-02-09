@@ -1,0 +1,29 @@
+# Dataset Splitter Configuration
+
+# Split parameters
+split:
+  # Training set ratio (must sum to 1.0 with val_ratio and test_ratio)
+  train_ratio: 0.7
+  
+  # Validation set ratio
+  val_ratio: 0.15
+  
+  # Test set ratio
+  test_ratio: 0.15
+  
+  # Random seed for reproducibility
+  random_state: 42
+  
+  # Whether to shuffle data before splitting
+  shuffle: true
+  
+  # Whether to stratify by target column (for classification)
+  stratify: true
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
