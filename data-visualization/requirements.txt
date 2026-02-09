@@ -1,0 +1,5 @@
+pandas==2.1.4  # Data manipulation and analysis
+matplotlib==3.8.2  # Plotting and visualization
+seaborn==0.13.0  # Statistical data visualization
+pyyaml==6.0.1  # YAML configuration file parsing
+python-dotenv==1.0.0  # Environment variable management

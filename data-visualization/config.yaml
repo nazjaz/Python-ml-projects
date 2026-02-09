@@ -1,0 +1,26 @@
+# Data Visualization Configuration
+
+# Visualization parameters
+visualization:
+  # Figure size [width, height] in inches
+  figsize: [10, 6]
+  
+  # DPI for saved plots
+  dpi: 100
+  
+  # Seaborn style (whitegrid, darkgrid, white, dark, ticks)
+  style: "whitegrid"
+  
+  # Color palette (husl, Set2, pastel, etc.)
+  color_palette: "husl"
+  
+  # Output directory for saved plots
+  output_dir: "plots"
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
