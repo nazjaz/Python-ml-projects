@@ -1,0 +1,20 @@
+# Time Series Preprocessing Configuration
+
+# Preprocessing parameters
+preprocessing:
+  # Default resampling frequency
+  default_resample_freq: "D"  # Options: D (daily), H (hourly), W (weekly), M (monthly)
+  
+  # Default interpolation method
+  default_interpolation_method: "linear"  # Options: linear, polynomial, spline, time
+  
+  # Default trend removal method
+  default_trend_removal_method: "linear"  # Options: linear, polynomial, moving_average
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"

@@ -1,0 +1,5 @@
+pandas==2.1.4  # Data manipulation and time series operations
+numpy==1.26.3  # Numerical computations
+scipy==1.11.4  # Scientific computing (for advanced interpolation)
+pyyaml==6.0.1  # YAML configuration file parsing
+python-dotenv==1.0.0  # Environment variable management
