@@ -1,0 +1,20 @@
+# Data Pipeline Configuration
+
+# Pipeline configuration
+pipeline:
+  # Default transformers to use (can be overridden in code)
+  default_transformers:
+    - type: "imputer"
+      strategy: "mean"
+    - type: "standard_scaler"
+  
+  # Random seed for reproducibility
+  random_state: 42
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
