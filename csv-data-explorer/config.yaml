@@ -1,0 +1,20 @@
+# CSV Data Explorer Configuration
+
+# CSV loading parameters
+csv_explorer:
+  # Column separator (comma, semicolon, tab, etc.)
+  separator: ","
+  
+  # File encoding (utf-8, latin-1, etc.)
+  encoding: "utf-8"
+  
+  # Number of rows to preview by default
+  max_rows_preview: 10
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
