@@ -1,0 +1,23 @@
+# Synthetic Dataset Generator Configuration
+
+# Generation parameters
+generation:
+  # Number of samples to generate
+  n_samples: 1000
+  
+  # Number of features to generate
+  n_features: 10
+  
+  # Random seed for reproducibility
+  random_state: 42
+  
+  # Noise level for regression datasets
+  noise: 0.1
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
