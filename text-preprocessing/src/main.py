@@ -8,7 +8,7 @@ import logging
 import logging.handlers
 import re
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import pandas as pd
 import yaml
@@ -217,7 +217,7 @@ class TextPreprocessor:
         remove_stopwords: Optional[bool] = None,
         stemming: Optional[bool] = None,
         return_tokens: bool = True,
-    ) -> str | List[str]:
+    ) -> Union[str, List[str]]:
         """Apply all preprocessing steps to text.
 
         Args:
