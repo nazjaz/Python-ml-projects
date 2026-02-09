@@ -1,0 +1,23 @@
+# Categorical Encoding Configuration
+
+# Encoding parameters
+encoding:
+  # Whether to drop first category in one-hot encoding (reduces multicollinearity)
+  drop_first: false
+  
+  # Prefix for one-hot encoded column names (None uses column name)
+  prefix: null
+  
+  # Separator for prefix in one-hot encoding
+  prefix_sep: "_"
+  
+  # Whether to modify data in place (False creates copy)
+  inplace: false
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
