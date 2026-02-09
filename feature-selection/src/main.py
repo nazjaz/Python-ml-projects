@@ -15,12 +15,12 @@ import yaml
 from dotenv import load_dotenv
 from sklearn.feature_selection import (
     SelectKBest,
+    VarianceThreshold,
     chi2,
     f_classif,
     f_regression,
     mutual_info_classif,
     mutual_info_regression,
-    variance_threshold,
 )
 
 # Load environment variables
@@ -200,7 +200,7 @@ class FeatureSelector:
 
         numeric_data = self.data[numeric_cols]
 
-        selector = variance_threshold(threshold=threshold)
+        selector = VarianceThreshold(threshold=threshold)
         selector.fit(numeric_data)
 
         selected_mask = selector.get_support()
