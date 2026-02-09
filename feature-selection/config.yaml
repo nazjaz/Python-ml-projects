@@ -1,0 +1,24 @@
+# Feature Selection Configuration
+
+# Feature selection parameters
+feature_selection:
+  # Variance threshold (features with variance below this are removed)
+  variance_threshold: 0.0
+  
+  # Correlation threshold (features with correlation above this are removed)
+  correlation_threshold: 0.95
+  
+  # Number of top features for univariate selection
+  univariate_k: 10
+  
+  # Score function for univariate selection
+  # Options: f_classif, f_regression, chi2, mutual_info_classif, mutual_info_regression
+  univariate_score_func: "f_classif"
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
