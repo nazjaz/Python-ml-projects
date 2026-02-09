@@ -1,0 +1,23 @@
+# Outlier Detection Configuration
+
+# Outlier detection parameters
+outlier_detection:
+  # IQR multiplier (typically 1.5 for normal, 3.0 for extreme outliers)
+  iqr_multiplier: 1.5
+  
+  # Z-score threshold (typically 3.0 for normal, 2.0 for more sensitive)
+  z_score_threshold: 3.0
+  
+  # Isolation Forest contamination (expected proportion of outliers)
+  isolation_contamination: 0.1
+  
+  # Random state for Isolation Forest
+  isolation_random_state: 42
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
