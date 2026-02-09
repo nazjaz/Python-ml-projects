@@ -1,0 +1,26 @@
+# Correlation Analysis Configuration
+
+# Correlation analysis parameters
+correlation:
+  # Correlation method (pearson, spearman, kendall)
+  method: "pearson"
+  
+  # Figure size [width, height] in inches
+  figsize: [10, 8]
+  
+  # DPI for saved plots
+  dpi: 100
+  
+  # Colormap for heatmap (coolwarm, RdYlBu, viridis, etc.)
+  colormap: "coolwarm"
+  
+  # Output directory for saved plots
+  output_dir: "plots"
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
