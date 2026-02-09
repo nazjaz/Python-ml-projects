@@ -1,0 +1,20 @@
+# Missing Value Imputation Configuration
+
+# Imputation parameters
+imputation:
+  # Default strategy for numerical columns (mean or median)
+  default_numeric_strategy: "mean"
+  
+  # Default strategy for categorical columns (mode)
+  default_categorical_strategy: "mode"
+  
+  # Whether to modify data in place (False creates copy)
+  inplace: false
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
