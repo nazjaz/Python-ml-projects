@@ -1,0 +1,20 @@
+# Variational Autoencoder Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_samples: 2000
+  n_features: 32
+  latent_dim: 4
+  random_seed: 42
+
+model:
+  hidden_dim: 16
+
+training:
+  epochs: 50
+  learning_rate: 0.01
+  batch_size: 64
+
