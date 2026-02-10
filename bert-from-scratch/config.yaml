@@ -1,0 +1,26 @@
+# BERT-like model (MLM + NSP) configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  batch_size: 8
+  sequence_length: 32
+  vocab_size: 64
+  mask_probability: 0.15
+  num_train_batches: 100
+  num_test_batches: 20
+  random_seed: 42
+
+model:
+  dim_model: 32
+  num_heads: 4
+  dim_ff: 64
+  num_layers: 2
+
+training:
+  epochs: 5
+  learning_rate: 0.001
+  mlm_loss_weight: 1.0
+  nsp_loss_weight: 1.0
