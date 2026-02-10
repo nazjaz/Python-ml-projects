@@ -1,0 +1,20 @@
+# SimCLR contrastive learning
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+simclr:
+  repr_dim: 128
+  proj_dim: 64
+  encoder_hidden: 256
+  proj_hidden: 128
+  epochs: 10
+  batch_size: 64
+  learning_rate: 0.001
+  temperature: 0.5
+  noise_std: 0.1
+  scale_low: 0.8
+  scale_high: 1.2
+  max_samples: null
+  random_seed: 0
