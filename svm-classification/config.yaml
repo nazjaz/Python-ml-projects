@@ -1,0 +1,33 @@
+# Support Vector Machine Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Kernel type: "linear", "poly", "rbf"
+  kernel: "linear"
+  
+  # Regularization parameter C
+  C: 1.0
+  
+  # Degree for polynomial kernel
+  degree: 3
+  
+  # Kernel coefficient for RBF and polynomial
+  # null: auto (1/n_features)
+  gamma: null
+  
+  # Independent term for polynomial kernel
+  coef0: 0.0
+  
+  # Tolerance for stopping criterion
+  tol: 0.001
+  
+  # Maximum number of iterations
+  max_iter: 1000
