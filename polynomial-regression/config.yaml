@@ -1,0 +1,34 @@
+# Polynomial Regression Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Polynomial degree
+  degree: 2
+  
+  # Regularization type: null, "l1", "l2", "ridge", "lasso"
+  regularization: null
+  
+  # Regularization strength
+  alpha: 1.0
+  
+  # Whether to fit intercept term
+  fit_intercept: true
+
+# Cross-validation configuration
+cross_validation:
+  # Number of CV folds
+  cv: 5
+  
+  # Degree range for CV (min, max)
+  degree_range: [1, 10]
+  
+  # Scoring metric: "mse" or "r2"
+  scoring: "mse"
