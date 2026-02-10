@@ -1,0 +1,23 @@
+# Wasserstein GAN with Gradient Penalty Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_samples: 1000
+  noise_dim: 8
+  data_dim: 2
+  random_seed: 42
+
+model:
+  hidden_dim: 32
+
+training:
+  epochs: 1000
+  learning_rate_generator: 0.0005
+  learning_rate_critic: 0.0005
+  batch_size: 64
+  critic_iters: 5
+  lambda_gp: 10.0
+
