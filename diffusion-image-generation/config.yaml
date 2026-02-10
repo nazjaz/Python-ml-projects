@@ -1,0 +1,15 @@
+# Diffusion image generation
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+diffusion:
+  timesteps: 100
+  hidden_dim: 128
+  emb_dim: 32
+  epochs: 10
+  batch_size: 64
+  learning_rate: 0.001
+  max_samples: null
+  random_seed: 0
