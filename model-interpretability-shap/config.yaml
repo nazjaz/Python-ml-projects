@@ -1,0 +1,14 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+shap:
+  algorithm: "auto"
+  max_evals: 100
+
+permutation_importance:
+  n_repeats: 5
+  random_state: 42
+
+partial_dependence:
+  grid_resolution: 100

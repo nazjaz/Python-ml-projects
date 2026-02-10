@@ -1,0 +1,9 @@
+numpy==1.24.3  # Numerical computing for array operations
+pandas==2.0.3  # Data manipulation and CSV file handling
+scikit-learn==1.3.0  # Permutation importance, partial dependence plots, and ML models
+matplotlib==3.7.2  # Plotting and visualization
+shap==0.42.1  # SHAP values for model interpretability
+pyyaml==6.0.1  # YAML configuration file parsing
+python-dotenv==1.0.0  # Environment variable management
+pytest==7.4.0  # Testing framework
+pytest-cov==4.1.0  # Test coverage reporting
