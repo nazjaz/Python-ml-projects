@@ -1,0 +1,13 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+mutual_information:
+  n_features: null
+  score_threshold: null
+  random_state: 42
+
+rfe:
+  n_features_to_select: null
+  step: 1
+  verbose: 0
