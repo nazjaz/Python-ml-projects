@@ -1,0 +1,26 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+auto_selection:
+  max_p: 5
+  max_d: 2
+  max_q: 5
+  seasonal: false
+  max_P: 2
+  max_D: 1
+  max_Q: 2
+  m: 12
+  criterion: "aic"
+
+model:
+  method: "css-ml"
+  maxiter: 50
+
+forecasting:
+  default_steps: 10
+  alpha: 0.05
+
+diagnostics:
+  acf_pacf_lags: 40
+  residual_lags: 40

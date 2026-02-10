@@ -1,0 +1,9 @@
+numpy==1.24.3  # Numerical computing for array operations
+pandas==2.0.3  # Data manipulation and CSV file handling
+scipy==1.11.1  # Statistical functions and tests
+statsmodels==0.14.0  # ARIMA models and time series analysis
+matplotlib==3.7.2  # Plotting and visualization
+pyyaml==6.0.1  # YAML configuration file parsing
+python-dotenv==1.0.0  # Environment variable management
+pytest==7.4.0  # Testing framework
+pytest-cov==4.1.0  # Test coverage reporting
