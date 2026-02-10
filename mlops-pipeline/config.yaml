@@ -1,0 +1,37 @@
+# MLOps Pipeline: Data Versioning, Model Monitoring, Automated Retraining
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+paths:
+  data_versions: "data_versions"
+  model_registry: "model_registry"
+  monitoring: "monitoring"
+
+data_versioning:
+  enabled: true
+  # Create new data version when ingesting if content hash changes
+  hash_algorithm: "sha256"
+
+monitoring:
+  metrics_history_file: "metrics_history.json"
+  drift_history_file: "drift_history.json"
+  # Retrain if accuracy drops below this (or no model exists)
+  accuracy_min_threshold: 0.70
+  # Retrain if feature mean drift (mean relative change, capped) exceeds this
+  drift_threshold: 5.0
+  # Minimum number of samples to compute drift
+  drift_min_samples: 50
+
+training:
+  model_type: "logistic"
+  random_state: 42
+  test_size: 0.2
+  # For LogisticRegression
+  max_iter: 500
+  C: 1.0
+
+pipeline:
+  # On run: check monitor, optionally retrain, then evaluate and record
+  evaluate_after_retrain: true
