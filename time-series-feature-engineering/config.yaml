@@ -1,0 +1,47 @@
+# Time Series Feature Engineering Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Feature engineering configuration
+features:
+  # Date/time column name
+  date_column: null
+  
+  # Target column for feature engineering
+  target_column: null
+  
+  # Frequency of time series (D=daily, H=hourly, M=monthly, etc.)
+  freq: null
+  
+  # Lag periods for lag features
+  lags: [1, 2, 3, 7, 14, 30]
+  
+  # Rolling window sizes
+  rolling_windows: [3, 7, 14, 30]
+  
+  # Rolling statistics to compute
+  rolling_statistics: ["mean", "std", "min", "max"]
+  
+  # Expanding statistics to compute
+  expanding_statistics: ["mean", "std", "min", "max"]
+  
+  # Difference periods
+  difference_periods: [1, 7, 30]
+  
+  # Ratio feature windows
+  ratio_windows: [7, 30]
+  
+  # Time features to create
+  time_features: ["year", "month", "day", "dayofweek", "dayofyear", "week", "quarter", "hour", "is_weekend"]
+  
+  # Seasonal decomposition model
+  decomposition_model: "additive"  # "additive" or "multiplicative"
+  
+  # Seasonal decomposition period (null: auto-detect)
+  decomposition_period: null
