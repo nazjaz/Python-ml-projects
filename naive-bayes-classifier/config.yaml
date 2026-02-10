@@ -1,0 +1,23 @@
+# Naive Bayes Classifier Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Naive Bayes variant: gaussian, multinomial, bernoulli
+  variant: "gaussian"
+  
+  # Smoothing parameter for Multinomial and Bernoulli
+  alpha: 1.0
+  
+  # Binarization threshold for Bernoulli (None to disable)
+  binarize: 0.0
+  
+  # Smoothing parameter for Gaussian (to prevent division by zero)
+  smoothing: 1e-9
