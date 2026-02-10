@@ -1,0 +1,18 @@
+# Knowledge distillation: teacher-student and temperature scaling
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+distillation:
+  teacher_hidden: 128
+  student_hidden: 32
+  teacher_epochs: 10
+  student_epochs: 10
+  temperature: 4.0
+  alpha: 0.7
+  learning_rate: 0.01
+  batch_size: 32
+  train_ratio: 0.8
+  max_samples: null
+  random_seed: 0
