@@ -1,0 +1,19 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+random_state: 42
+
+smote:
+  k_neighbors: 5
+  sampling_strategy: 1.0
+
+undersampling:
+  sampling_strategy: 1.0
+  method: "random"
+
+class_weights:
+  method: "balanced"
+  custom_weights:
+    0: 1.0
+    1: 2.0
