@@ -1,0 +1,21 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+user_based:
+  similarity_metric: "cosine"
+  n_neighbors: 50
+  min_common_items: 1
+
+item_based:
+  similarity_metric: "cosine"
+  n_neighbors: 50
+  min_common_users: 1
+
+recommendation:
+  default_n_recommendations: 10
+
+evaluation:
+  metrics:
+    - "rmse"
+    - "mae"
