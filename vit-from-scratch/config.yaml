@@ -1,0 +1,26 @@
+# Vision Transformer configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  image_size: 32
+  in_channels: 3
+  num_classes: 10
+  n_train: 512
+  n_test: 128
+  random_seed: 42
+
+model:
+  dim_model: 64
+  patch_size: 4
+  num_heads: 4
+  dim_ff: 128
+  num_layers: 2
+
+training:
+  epochs: 5
+  batch_size: 32
+  learning_rate: 0.001
+
