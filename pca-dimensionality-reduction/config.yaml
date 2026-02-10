@@ -1,0 +1,20 @@
+# Principal Component Analysis Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of components to keep
+  # null: keep all components
+  # int: keep top n components
+  # float (0-1): keep components explaining at least that variance
+  n_components: null
+  
+  # Whether to whiten the components
+  whiten: false
