@@ -1,0 +1,23 @@
+# RNN Sequence Prediction Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_train: 2000
+  n_test: 500
+  sequence_length: 20
+  random_seed: 42
+  noise_std: 0.05
+
+model:
+  input_dim: 1
+  hidden_dim: 32
+  output_dim: 1
+
+training:
+  epochs: 20
+  learning_rate: 0.005
+  batch_size: 32
+
