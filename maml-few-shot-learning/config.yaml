@@ -1,0 +1,29 @@
+# MAML Few-Shot Learning Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+model:
+  input_dim: 8
+  hidden_dim: 64
+  num_classes: 5
+  num_layers: 2
+
+maml:
+  inner_lr: 0.01
+  outer_lr: 0.001
+  inner_steps: 5
+  first_order: false
+
+training:
+  meta_epochs: 30
+  tasks_per_epoch: 100
+  batch_tasks: 4
+
+data:
+  random_seed: 42
+  n_way: 5
+  k_shot: 3
+  query_size: 15
+  input_dim: 8
