@@ -1,0 +1,23 @@
+# Hyperparameter Tuning Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Hyperparameter tuning configuration
+tuning:
+  # Number of cross-validation folds
+  cv: 5
+  
+  # Number of iterations for random/bayesian search
+  n_iter: 10
+  
+  # Number of initial random samples for Bayesian optimization
+  n_initial: 5
+  
+  # Random seed
+  random_state: null
