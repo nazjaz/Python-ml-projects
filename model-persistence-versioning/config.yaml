@@ -1,0 +1,9 @@
+logging:
+  level: INFO
+  file: logs/app.log
+
+persistence:
+  models_dir: models
+  registry_path: null
+  serialization_format: joblib
+  compress: true
