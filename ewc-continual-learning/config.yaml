@@ -1,0 +1,22 @@
+# EWC Continual Learning Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+model:
+  input_dim: 16
+  hidden_dim: 64
+  num_classes: 3
+
+training:
+  tasks: 2
+  epochs_per_task: 20
+  batch_size: 32
+  learning_rate: 0.001
+  lambda_ewc: 50.0
+
+data:
+  random_seed: 42
+  samples_per_task: 1000
+
