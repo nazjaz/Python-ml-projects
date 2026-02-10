@@ -1,0 +1,19 @@
+# Federated learning: distributed training, aggregation, privacy
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+federated:
+  num_clients: 5
+  num_rounds: 10
+  local_epochs: 1
+  hidden_dim: 32
+  learning_rate: 0.01
+  batch_size: 32
+  train_ratio: 0.8
+  max_samples: null
+  iid: true
+  max_grad_norm: 10.0
+  noise_sigma: null
+  random_seed: 0
