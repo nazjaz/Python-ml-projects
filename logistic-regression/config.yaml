@@ -1,0 +1,26 @@
+# Logistic Regression Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Initial learning rate
+  learning_rate: 0.01
+  
+  # Maximum number of iterations
+  max_iterations: 1000
+  
+  # Convergence tolerance
+  tolerance: 1e-6
+  
+  # Whether to fit intercept term
+  fit_intercept: true
+  
+  # Whether to scale features
+  scale_features: true
