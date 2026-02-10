@@ -1,0 +1,20 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_samples: 1000
+  n_features: 20
+  n_classes: 3
+  random_seed: 42
+
+network:
+  hidden_layers: [128, 64, 32]
+  hidden_activations: ["relu", "relu", "relu"]
+  output_activation: "softmax"
+  weight_init: "he"
+
+training:
+  epochs: 100
+  learning_rate: 0.01
+  batch_size: 32
