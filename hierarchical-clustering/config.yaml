@@ -1,0 +1,20 @@
+# Hierarchical Clustering Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of clusters (null for full dendrogram without cutting)
+  n_clusters: null
+  
+  # Linkage method: single, complete, average
+  linkage: "average"
+  
+  # Distance metric (currently only euclidean supported)
+  distance_metric: "euclidean"
