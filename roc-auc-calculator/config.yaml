@@ -1,0 +1,26 @@
+# ROC Curve and AUC Calculator Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Visualization configuration
+visualization:
+  # Figure size [width, height] in inches
+  figsize: [10, 8]
+  
+  # DPI for saved figures
+  dpi: 100
+  
+  # Line width for ROC curve
+  linewidth: 2
+  
+  # Font size for labels
+  fontsize: 12
+  
+  # Format for saving figures (png, pdf, svg)
+  save_format: "png"
