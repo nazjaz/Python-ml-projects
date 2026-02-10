@@ -1,0 +1,24 @@
+# Graph Neural Network (GNN) Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+model:
+  num_features: 16
+  hidden_dim: 32
+  num_classes: 3
+  num_layers: 3
+
+training:
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0
+  batch_size: 1
+
+data:
+  random_seed: 42
+  num_train_graphs: 200
+  num_nodes: 50
+  edge_prob: 0.1
+
