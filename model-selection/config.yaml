@@ -1,0 +1,23 @@
+# Model Selection Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model selection configuration
+model_selection:
+  # Number of outer CV folds for nested CV
+  outer_cv: 5
+  
+  # Number of inner CV folds for nested CV
+  inner_cv: 5
+  
+  # Number of CV folds for learning curves
+  cv: 5
+  
+  # Random seed
+  random_state: null
