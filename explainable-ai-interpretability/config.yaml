@@ -1,0 +1,32 @@
+# Explainable AI Interpretability Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+model:
+  input_dim: 8
+  hidden_dim: 32
+  num_classes: 2
+
+interpretability:
+  integrated_gradients:
+    steps: 50
+    baseline: "zero"
+  lime:
+    num_samples: 500
+    num_features: 8
+    kernel_width: 0.25
+  attention:
+    num_heads: 2
+    embed_dim: 16
+
+data:
+  random_seed: 42
+  num_train: 400
+  num_val: 100
+
+training:
+  epochs: 15
+  batch_size: 32
+  learning_rate: 0.001
