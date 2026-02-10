@@ -1,0 +1,21 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+binary_relevance:
+  estimator: "logistic_regression"
+  n_estimators: 100
+  random_state: 42
+  max_iter: 1000
+
+classifier_chain:
+  estimator: "logistic_regression"
+  n_estimators: 100
+  random_state: 42
+  max_iter: 1000
+  order: null
+
+label_powerset:
+  estimator: "random_forest"
+  n_estimators: 100
+  random_state: 42
