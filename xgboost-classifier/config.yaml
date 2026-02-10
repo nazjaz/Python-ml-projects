@@ -1,0 +1,41 @@
+# XGBoost Classifier Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of boosting rounds (trees)
+  n_estimators: 100
+  
+  # Learning rate (shrinkage)
+  learning_rate: 0.1
+  
+  # Maximum depth of trees
+  max_depth: 6
+  
+  # Minimum sum of instance weight in child
+  min_child_weight: 1.0
+  
+  # Minimum loss reduction for split
+  gamma: 0.0
+  
+  # L2 regularization
+  reg_lambda: 1.0
+  
+  # L1 regularization
+  reg_alpha: 0.0
+  
+  # Fraction of samples to use for each tree (0-1)
+  subsample: 1.0
+  
+  # Early stopping rounds (null: no early stopping)
+  early_stopping_rounds: null
+  
+  # Random seed
+  random_state: null
