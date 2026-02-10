@@ -1,0 +1,20 @@
+# Cross-Validation Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Cross-validation configuration
+cross_validation:
+  # Number of folds for k-fold and stratified k-fold
+  n_splits: 5
+  
+  # Random seed for reproducibility
+  random_state: 42
+  
+  # Whether to shuffle data before splitting
+  shuffle: true
