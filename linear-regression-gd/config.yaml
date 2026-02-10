@@ -1,0 +1,41 @@
+# Linear Regression with Gradient Descent Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Initial learning rate
+  learning_rate: 0.01
+  
+  # Maximum number of iterations
+  max_iterations: 1000
+  
+  # Convergence tolerance
+  tolerance: 1e-6
+  
+  # Whether to fit intercept term
+  fit_intercept: true
+  
+  # Learning rate scheduler type
+  # Options: constant, exponential, step, polynomial
+  scheduler: "constant"
+  
+  # Scheduler parameters
+  scheduler_params:
+    # For exponential decay
+    decay_rate: 0.95
+    
+    # For step decay
+    drop_rate: 0.5
+    epochs_drop: 10
+    
+    # For polynomial decay
+    end_lr: 0.001
+    power: 1.0
+    max_epochs: 1000
