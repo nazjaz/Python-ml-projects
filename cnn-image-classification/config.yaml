@@ -1,0 +1,31 @@
+# CNN Image Classification Configuration
+
+# Logging configuration
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+# Data configuration
+data:
+  n_train: 5000
+  n_test: 1000
+  random_seed: 42
+
+# Model architecture
+model:
+  conv_layers:
+    - filters: 32
+      kernel_size: 3
+      stride: 1
+      padding: 1
+    - filters: 64
+      kernel_size: 3
+      stride: 1
+      padding: 1
+  dense_units: 128
+
+# Training configuration
+training:
+  epochs: 10
+  learning_rate: 0.001
+  batch_size: 32
