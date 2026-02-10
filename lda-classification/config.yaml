@@ -1,0 +1,23 @@
+# Linear Discriminant Analysis Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of components to keep
+  # null: auto (min(n_features, n_classes - 1))
+  # int: keep top n components
+  n_components: null
+  
+  # Solver to use: "eigen" or "svd"
+  solver: "eigen"
+  
+  # Shrinkage parameter for regularization (0-1)
+  # null: no shrinkage
+  shrinkage: null
