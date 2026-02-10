@@ -1,0 +1,18 @@
+# NAS configuration (evolutionary and RL)
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+nas:
+  method: "evolution"
+  population_size: 8
+  num_generations: 5
+  mutation_prob: 0.2
+  tournament_size: 3
+  num_rollouts: 10
+  controller_lr: 0.01
+  eval_epochs: 3
+  train_ratio: 0.8
+  max_samples: 200
+  random_seed: 0
