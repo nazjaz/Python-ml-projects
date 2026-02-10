@@ -1,0 +1,12 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+loss_functions:
+  regression:
+    huber_delta: 1.0
+    smooth_l1_beta: 1.0
+  classification:
+    focal_alpha: 1.0
+    focal_gamma: 2.0
+    epsilon: 1e-15
