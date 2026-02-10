@@ -1,0 +1,25 @@
+# Transformer Encoder Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_train: 512
+  n_test: 128
+  sequence_length: 12
+  vocab_size: 32
+  random_seed: 7
+
+model:
+  dim_model: 32
+  num_heads: 4
+  dim_ff: 64
+  num_layers: 2
+  num_classes: 2
+
+training:
+  epochs: 10
+  learning_rate: 0.01
+  batch_size: 32
+
