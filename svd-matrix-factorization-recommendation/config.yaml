@@ -1,0 +1,18 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+svd:
+  n_components: 50
+  n_iter: 5
+  random_state: 42
+  algorithm: "arpack"
+  tol: 0.0
+
+recommendation:
+  default_n_recommendations: 10
+
+evaluation:
+  metrics:
+    - "rmse"
+    - "mae"
