@@ -1,0 +1,22 @@
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+model:
+  image_size: 32
+  patch_size: 4
+  in_channels: 3
+  embed_dim: 64
+  encoder_layers: 4
+  decoder_layers: 2
+  mask_ratio: 0.75
+
+training:
+  epochs: 20
+  batch_size: 32
+  learning_rate: 0.001
+
+data:
+  random_seed: 42
+  num_train: 1000
+  num_val: 200
