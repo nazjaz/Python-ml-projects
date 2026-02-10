@@ -1,0 +1,21 @@
+# Batch and Layer Normalization Configuration
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+data:
+  n_train: 2000
+  n_test: 500
+  n_features: 20
+  n_classes: 3
+  random_seed: 42
+
+model:
+  hidden_dim: 32
+
+training:
+  epochs: 30
+  learning_rate: 0.05
+  batch_size: 32
+
