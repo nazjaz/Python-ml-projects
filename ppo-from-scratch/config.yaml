@@ -1,0 +1,25 @@
+# PPO configuration (clipped objective and trust region)
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+env:
+  grid_size: 5
+  random_seed: 0
+
+agent:
+  hidden_dim: 64
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  value_coef: 0.5
+  entropy_coef: 0.01
+  kl_target: 0.01
+  max_grad_norm: 0.5
+  ppo_epochs: 4
+  batch_size: 64
+  learning_rate: 0.0003
+  rollout_steps: 128
+  max_episodes: 200
+  max_steps_per_episode: 100
