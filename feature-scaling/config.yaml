@@ -8,6 +8,27 @@ scaling:
   # Whether to modify data in place (False creates copy)
   inplace: false
 
+  # Robust scaling parameters (median and IQR based)
+  robust:
+    # Quantile range used to calculate IQR (Q1, Q3)
+    quantile_range: [25.0, 75.0]
+    with_centering: true
+    with_scaling: true
+    unit_variance: false
+
+  # Quantile transformation parameters
+  quantile:
+    # Note: n_quantiles will be automatically capped at the number of samples
+    n_quantiles: 1000
+    output_distribution: "uniform"  # "uniform" or "normal"
+    subsample: 10000
+    random_state: 42
+
+  # Power transformation parameters
+  power:
+    method: "yeo-johnson"  # "yeo-johnson" or "box-cox"
+    standardize: true
+
 # Logging configuration
 logging:
   # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL

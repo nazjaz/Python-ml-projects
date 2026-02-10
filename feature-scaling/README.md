@@ -1,10 +1,17 @@
 # Feature Scaling Tool
 
-A Python tool for normalizing and standardizing numerical features using min-max scaling and z-score normalization. This is the third project in the ML learning series, focusing on feature scaling techniques essential for machine learning.
+A Python tool for scaling numerical features using min-max scaling, z-score
+normalization, robust scaling, quantile transformation, and power
+transformation. This project focuses on feature scaling techniques essential
+for machine learning.
 
 ## Project Title and Description
 
-The Feature Scaling Tool provides automated solutions for scaling numerical features in datasets. It supports min-max scaling (normalization) and z-score normalization (standardization), which are crucial preprocessing steps for many machine learning algorithms that are sensitive to feature scales.
+The Feature Scaling Tool provides automated solutions for scaling numerical
+features in datasets. It supports min-max scaling, z-score normalization,
+robust scaling, quantile transformation, and power transformation, which are
+common preprocessing steps for many machine learning algorithms that are
+sensitive to feature scales.
 
 This tool solves the problem of features with different scales that can cause ML algorithms to perform poorly. Features with larger scales can dominate those with smaller scales, leading to biased models. This tool ensures all features are on a similar scale.
 
@@ -15,6 +22,9 @@ This tool solves the problem of features with different scales that can cause ML
 - Load data from CSV files or pandas DataFrames
 - Min-max scaling (normalization) to specified range
 - Z-score normalization (standardization) to mean=0, std=1
+- Robust scaling using median and IQR (outlier resistant)
+- Quantile transformation to uniform or normal distributions
+- Power transformation (Yeo-Johnson and Box-Cox)
 - Automatic detection of numerical columns
 - Column-specific scaling support
 - Inverse transformation to original scale
@@ -107,6 +117,24 @@ Apply z-score normalization:
 
 ```bash
 python src/main.py --input data.csv --method z_score
+```
+
+Apply robust scaling:
+
+```bash
+python src/main.py --input data.csv --method robust
+```
+
+Apply quantile transformation:
+
+```bash
+python src/main.py --input data.csv --method quantile
+```
+
+Apply power transformation:
+
+```bash
+python src/main.py --input data.csv --method power
 ```
 
 Apply both methods:
@@ -272,6 +300,28 @@ Tests cover:
 - **Use for**: When data distribution is unknown or has outliers
 - **Pros**: Less sensitive to outliers, mean=0, std=1
 - **Cons**: Unbounded output
+
+### Robust Scaling
+
+- **Approach**: Center using median and scale using IQR (Q3 - Q1)
+- **Use for**: Data with outliers or heavy-tailed distributions
+- **Pros**: Outlier resistant
+- **Cons**: Output is unbounded, interpretation depends on IQR
+
+### Quantile Transformation
+
+- **Approach**: Map data to a target distribution using the empirical CDF
+- **Output**: "uniform" or "normal"
+- **Use for**: Reducing outlier impact, making distributions more Gaussian-like
+- **Pros**: Strong outlier handling, distribution shaping
+- **Cons**: Can distort linear relationships
+
+### Power Transformation
+
+- **Methods**: Yeo-Johnson (supports non-positive values), Box-Cox (positive only)
+- **Use for**: Stabilizing variance and making data more Gaussian-like
+- **Pros**: Useful for skewed features
+- **Cons**: Box-Cox requires strictly positive values
 
 ## When to Use Each Method
 

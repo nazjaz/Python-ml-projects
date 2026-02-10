@@ -106,6 +106,68 @@ result = scaler.z_score_normalize()
 result = scaler.z_score_normalize(columns=["age", "score"])
 ```
 
+##### `robust_scale(columns: Optional[List[str]] = None, quantile_range: Optional[Tuple[float, float]] = None, inplace: Optional[bool] = None) -> pd.DataFrame`
+
+Apply robust scaling to numerical columns using the median and IQR.
+
+**Parameters:**
+- `columns` (Optional[List[str]]): List of column names to scale (None for all numeric)
+- `quantile_range` (Optional[Tuple[float, float]]): Quantile range (q_min, q_max) used to compute IQR
+- `inplace` (Optional[bool]): Whether to modify in place (default from config)
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with robust scaled values
+
+**Raises:**
+- `ValueError`: If no data loaded, columns invalid, or quantile_range invalid
+
+**Example:**
+```python
+result = scaler.robust_scale()
+```
+
+##### `quantile_transform(columns: Optional[List[str]] = None, n_quantiles: Optional[int] = None, output_distribution: Optional[str] = None, inplace: Optional[bool] = None) -> pd.DataFrame`
+
+Apply quantile transformation to numerical columns, mapping to a uniform or normal distribution.
+
+**Parameters:**
+- `columns` (Optional[List[str]]): List of column names to transform (None for all numeric)
+- `n_quantiles` (Optional[int]): Number of quantiles (capped at n_samples)
+- `output_distribution` (Optional[str]): "uniform" or "normal"
+- `inplace` (Optional[bool]): Whether to modify in place (default from config)
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with transformed values
+
+**Raises:**
+- `ValueError`: If no data loaded, columns invalid, or parameters invalid
+
+**Example:**
+```python
+result = scaler.quantile_transform(output_distribution="normal")
+```
+
+##### `power_transform(columns: Optional[List[str]] = None, method: Optional[str] = None, standardize: Optional[bool] = None, inplace: Optional[bool] = None) -> pd.DataFrame`
+
+Apply power transformation to numerical columns (Yeo-Johnson or Box-Cox).
+
+**Parameters:**
+- `columns` (Optional[List[str]]): List of column names to transform (None for all numeric)
+- `method` (Optional[str]): "yeo-johnson" or "box-cox"
+- `standardize` (Optional[bool]): Whether to standardize transformed output
+- `inplace` (Optional[bool]): Whether to modify in place (default from config)
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with transformed values
+
+**Raises:**
+- `ValueError`: If no data loaded, columns invalid, or Box-Cox positivity violated
+
+**Example:**
+```python
+result = scaler.power_transform(method="yeo-johnson", standardize=True)
+```
+
 ##### `inverse_transform(scaled_data: Optional[pd.DataFrame] = None, columns: Optional[List[str]] = None) -> pd.DataFrame`
 
 Inverse transform scaled data back to original scale.
@@ -164,6 +226,19 @@ The tool uses YAML configuration files with the following structure:
 scaling:
   min_max_range: [0, 1]
   inplace: false
+  robust:
+    quantile_range: [25.0, 75.0]
+    with_centering: true
+    with_scaling: true
+    unit_variance: false
+  quantile:
+    n_quantiles: 1000
+    output_distribution: "uniform"
+    subsample: 10000
+    random_state: 42
+  power:
+    method: "yeo-johnson"
+    standardize: true
 
 logging:
   level: "INFO"
@@ -174,6 +249,16 @@ logging:
 
 - `min_max_range` (List[float]): Feature range for min-max scaling [min, max] (default: [0, 1])
 - `inplace` (bool): Whether to modify data in place (False creates copy)
+- `robust.quantile_range` (List[float]): Quantile range [q_min, q_max] for IQR computation
+- `robust.with_centering` (bool): Center data before scaling
+- `robust.with_scaling` (bool): Scale data by IQR
+- `robust.unit_variance` (bool): Scale data so that normally distributed features have unit variance
+- `quantile.n_quantiles` (int): Number of quantiles (capped at n_samples)
+- `quantile.output_distribution` (str): "uniform" or "normal"
+- `quantile.subsample` (int): Maximum number of samples to use to estimate quantiles
+- `quantile.random_state` (int): Random seed for reproducibility
+- `power.method` (str): "yeo-johnson" or "box-cox"
+- `power.standardize` (bool): Whether to standardize output after transformation
 - `logging.level` (str): Logging verbosity level
 - `logging.file` (str): Path to log file
 

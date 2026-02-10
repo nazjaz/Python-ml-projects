@@ -276,6 +276,131 @@ class TestFeatureScaler:
         finally:
             Path(csv_path).unlink()
 
+    def test_robust_scale(self):
+        """Test robust scaling."""
+        csv_content = "age,score\n10,50\n20,100\n30,1000"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            result = scaler.robust_scale()
+
+            assert abs(result["age"].median()) < 1e-9
+            assert "age" in scaler.get_scaling_summary()
+            assert scaler.get_scaling_summary()["age"]["method"] == "robust"
+        finally:
+            Path(csv_path).unlink()
+
+    def test_inverse_transform_robust(self):
+        """Test inverse transform for robust scaling."""
+        csv_content = "age,score\n10,50\n20,100\n30,1000"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            original_data = scaler.data.copy()
+            scaled_data = scaler.robust_scale()
+
+            inverse_data = scaler.inverse_transform(scaled_data)
+
+            pd.testing.assert_frame_equal(
+                original_data[["age", "score"]],
+                inverse_data[["age", "score"]],
+                check_dtype=False,
+                atol=1e-8,
+            )
+        finally:
+            Path(csv_path).unlink()
+
+    def test_quantile_transform_uniform(self):
+        """Test quantile transformation to uniform distribution."""
+        csv_content = "age,score\n10,50\n20,100\n30,150\n40,200\n50,250"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            result = scaler.quantile_transform(output_distribution="uniform")
+
+            assert result["age"].min() >= 0.0
+            assert result["age"].max() <= 1.0
+            assert scaler.get_scaling_summary()["age"]["method"] == "quantile"
+        finally:
+            Path(csv_path).unlink()
+
+    def test_quantile_inverse_transform_approx(self):
+        """Test that inverse transform approximately recovers data."""
+        csv_content = "age,score\n10,50\n20,100\n30,150\n40,200\n50,250"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            original_data = scaler.data.copy()
+            transformed = scaler.quantile_transform(output_distribution="uniform")
+            inverse = scaler.inverse_transform(transformed)
+
+            pd.testing.assert_frame_equal(
+                original_data[["age", "score"]],
+                inverse[["age", "score"]],
+                check_dtype=False,
+                atol=1e-6,
+            )
+        finally:
+            Path(csv_path).unlink()
+
+    def test_power_transform_yeo_johnson(self):
+        """Test power transformation using Yeo-Johnson."""
+        csv_content = "age,score\n-10,50\n0,100\n10,150\n20,200\n30,250"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            result = scaler.power_transform(method="yeo-johnson", standardize=True)
+
+            assert abs(result["age"].mean()) < 0.05
+            assert scaler.get_scaling_summary()["age"]["method"] == "power"
+            assert scaler.get_scaling_summary()["age"]["power_method"] == "yeo-johnson"
+        finally:
+            Path(csv_path).unlink()
+
+    def test_inverse_transform_power(self):
+        """Test inverse transform for power transformation."""
+        csv_content = "age,score\n-10,50\n0,100\n10,150\n20,200\n30,250"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            original_data = scaler.data.copy()
+            transformed = scaler.power_transform(method="yeo-johnson", standardize=True)
+            inverse = scaler.inverse_transform(transformed)
+
+            pd.testing.assert_frame_equal(
+                original_data[["age", "score"]],
+                inverse[["age", "score"]],
+                check_dtype=False,
+                atol=1e-6,
+            )
+        finally:
+            Path(csv_path).unlink()
+
+    def test_power_transform_box_cox_requires_positive(self):
+        """Test that Box-Cox rejects non-positive values."""
+        csv_content = "age,score\n0,50\n1,100\n2,150"
+        csv_path = self.create_temp_csv(csv_content)
+
+        try:
+            scaler = FeatureScaler()
+            scaler.load_data(file_path=csv_path)
+            with pytest.raises(ValueError, match="strictly positive"):
+                scaler.power_transform(method="box-cox")
+        finally:
+            Path(csv_path).unlink()
+
     def test_get_scaling_summary(self):
         """Test getting scaling summary."""
         csv_content = "age,score\n25,85.5\n30,92.0"

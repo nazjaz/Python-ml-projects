@@ -1,4 +1,6 @@
 pandas==2.1.4  # Data manipulation and analysis
 numpy==1.26.3  # Numerical computations
+scikit-learn==1.5.1  # Robust scaling, quantile, and power transformations
 pyyaml==6.0.1  # YAML configuration file parsing
 python-dotenv==1.0.0  # Environment variable management
+pytest==8.3.3  # Testing framework

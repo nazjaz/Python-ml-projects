@@ -1,18 +1,19 @@
 """Feature Scaling Tool.
 
 This module provides functionality to normalize and standardize numerical
-features using min-max scaling and z-score normalization.
+features using multiple feature scaling techniques.
 """
 
 import logging
 import logging.handlers
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import pandas as pd
 import yaml
 from dotenv import load_dotenv
+from sklearn.preprocessing import PowerTransformer, QuantileTransformer, RobustScaler
 
 # Load environment variables
 load_dotenv()
@@ -21,7 +22,7 @@ logger = logging.getLogger(__name__)
 
 
 class FeatureScaler:
-    """Handles feature scaling using min-max and z-score normalization."""
+    """Handles feature scaling using multiple scaling techniques."""
 
     def __init__(self, config_path: str = "config.yaml") -> None:
         """Initialize FeatureScaler with configuration.
@@ -37,7 +38,7 @@ class FeatureScaler:
         self._setup_logging()
         self._initialize_parameters()
         self.data: Optional[pd.DataFrame] = None
-        self.scaling_params: Dict[str, Dict[str, float]] = {}
+        self.scaling_params: Dict[str, Dict[str, Any]] = {}
 
     def _load_config(self, config_path: str) -> dict:
         """Load configuration from YAML file.
@@ -94,6 +95,26 @@ class FeatureScaler:
             scaling_config.get("min_max_range", [0, 1])
         )
         self.inplace = scaling_config.get("inplace", False)
+
+        robust_config = scaling_config.get("robust", {})
+        self.robust_quantile_range = tuple(
+            robust_config.get("quantile_range", [25.0, 75.0])
+        )
+        self.robust_with_centering = robust_config.get("with_centering", True)
+        self.robust_with_scaling = robust_config.get("with_scaling", True)
+        self.robust_unit_variance = robust_config.get("unit_variance", False)
+
+        quantile_config = scaling_config.get("quantile", {})
+        self.quantile_n_quantiles = int(quantile_config.get("n_quantiles", 1000))
+        self.quantile_output_distribution = str(
+            quantile_config.get("output_distribution", "uniform")
+        )
+        self.quantile_subsample = int(quantile_config.get("subsample", 10000))
+        self.quantile_random_state = quantile_config.get("random_state", 42)
+
+        power_config = scaling_config.get("power", {})
+        self.power_method = str(power_config.get("method", "yeo-johnson"))
+        self.power_standardize = bool(power_config.get("standardize", True))
 
     def load_data(
         self,
@@ -310,6 +331,259 @@ class FeatureScaler:
 
         return result
 
+    def robust_scale(
+        self,
+        columns: Optional[List[str]] = None,
+        quantile_range: Optional[Tuple[float, float]] = None,
+        inplace: Optional[bool] = None,
+    ) -> pd.DataFrame:
+        """Apply robust scaling to numerical columns.
+
+        Robust scaling uses the median and the interquartile range (IQR). It is
+        less sensitive to outliers compared to min-max scaling and z-score
+        normalization.
+
+        Args:
+            columns: List of column names to scale (None for all numeric).
+            quantile_range: Quantile range used to calculate IQR as (q_min, q_max).
+            inplace: Whether to modify in place (default from config).
+
+        Returns:
+            DataFrame with robust scaled values.
+
+        Raises:
+            ValueError: If no data loaded, columns invalid, or quantile range invalid.
+        """
+        if self.data is None:
+            raise ValueError("No data loaded. Call load_data() first.")
+
+        inplace = inplace if inplace is not None else self.inplace
+        result = self.data if inplace else self.data.copy()
+
+        quantile_range = quantile_range or self.robust_quantile_range
+        if len(quantile_range) != 2:
+            raise ValueError("quantile_range must be a tuple of (q_min, q_max)")
+        if quantile_range[0] >= quantile_range[1]:
+            raise ValueError("quantile_range q_min must be less than q_max")
+        if quantile_range[0] < 0 or quantile_range[1] > 100:
+            raise ValueError("quantile_range values must be between 0 and 100")
+
+        if columns is None:
+            columns = self.get_numeric_columns()
+
+        if not columns:
+            logger.warning("No numerical columns found for robust scaling")
+            return result
+
+        for col in columns:
+            if col not in result.columns:
+                raise ValueError(f"Column '{col}' not found in data")
+            if not pd.api.types.is_numeric_dtype(result[col]):
+                logger.warning(
+                    f"Column '{col}' is not numeric, skipping robust scaling"
+                )
+                continue
+
+            transformer = RobustScaler(
+                with_centering=self.robust_with_centering,
+                with_scaling=self.robust_with_scaling,
+                quantile_range=quantile_range,
+                unit_variance=self.robust_unit_variance,
+            )
+            scaled = transformer.fit_transform(
+                result[[col]].to_numpy(dtype=float)
+            ).reshape(-1)
+            result[col] = scaled
+
+            self.scaling_params[col] = {
+                "method": "robust",
+                "transformer": transformer,
+                "quantile_range": quantile_range,
+                "with_centering": self.robust_with_centering,
+                "with_scaling": self.robust_with_scaling,
+                "unit_variance": self.robust_unit_variance,
+            }
+            logger.info(
+                f"Robust scaled '{col}' using quantile_range={quantile_range}"
+            )
+
+        if not inplace:
+            self.data = result
+
+        return result
+
+    def quantile_transform(
+        self,
+        columns: Optional[List[str]] = None,
+        n_quantiles: Optional[int] = None,
+        output_distribution: Optional[str] = None,
+        inplace: Optional[bool] = None,
+    ) -> pd.DataFrame:
+        """Apply quantile transformation to numerical columns.
+
+        Quantile transformation maps the data to a uniform or normal distribution
+        using the empirical cumulative distribution function (CDF). This can
+        reduce the impact of outliers and make distributions more Gaussian-like.
+
+        Args:
+            columns: List of column names to transform (None for all numeric).
+            n_quantiles: Number of quantiles to compute (capped at n_samples).
+            output_distribution: "uniform" or "normal".
+            inplace: Whether to modify in place (default from config).
+
+        Returns:
+            DataFrame with quantile transformed values.
+
+        Raises:
+            ValueError: If no data loaded, columns invalid, or parameters invalid.
+        """
+        if self.data is None:
+            raise ValueError("No data loaded. Call load_data() first.")
+
+        inplace = inplace if inplace is not None else self.inplace
+        result = self.data if inplace else self.data.copy()
+
+        if columns is None:
+            columns = self.get_numeric_columns()
+
+        if not columns:
+            logger.warning("No numerical columns found for quantile transformation")
+            return result
+
+        output_distribution = (
+            output_distribution or self.quantile_output_distribution
+        ).lower()
+        if output_distribution not in {"uniform", "normal"}:
+            raise ValueError("output_distribution must be 'uniform' or 'normal'")
+
+        n_quantiles_val = int(n_quantiles or self.quantile_n_quantiles)
+        if n_quantiles_val < 2:
+            raise ValueError("n_quantiles must be at least 2")
+
+        for col in columns:
+            if col not in result.columns:
+                raise ValueError(f"Column '{col}' not found in data")
+            if not pd.api.types.is_numeric_dtype(result[col]):
+                logger.warning(
+                    f"Column '{col}' is not numeric, skipping quantile transform"
+                )
+                continue
+
+            x = result[[col]].to_numpy(dtype=float)
+            n_samples = x.shape[0]
+            effective_n_quantiles = min(n_quantiles_val, n_samples)
+
+            transformer = QuantileTransformer(
+                n_quantiles=effective_n_quantiles,
+                output_distribution=output_distribution,
+                subsample=self.quantile_subsample,
+                random_state=self.quantile_random_state,
+                copy=True,
+            )
+            transformed = transformer.fit_transform(x).reshape(-1)
+            result[col] = transformed
+
+            self.scaling_params[col] = {
+                "method": "quantile",
+                "transformer": transformer,
+                "n_quantiles": effective_n_quantiles,
+                "output_distribution": output_distribution,
+            }
+            logger.info(
+                f"Quantile transformed '{col}' using "
+                f"output_distribution={output_distribution}, "
+                f"n_quantiles={effective_n_quantiles}"
+            )
+
+        if not inplace:
+            self.data = result
+
+        return result
+
+    def power_transform(
+        self,
+        columns: Optional[List[str]] = None,
+        method: Optional[str] = None,
+        standardize: Optional[bool] = None,
+        inplace: Optional[bool] = None,
+    ) -> pd.DataFrame:
+        """Apply power transformation to numerical columns.
+
+        Power transformation stabilizes variance and can make the data more
+        Gaussian-like. Supported methods are "yeo-johnson" and "box-cox".
+        Note: "box-cox" requires strictly positive values.
+
+        Args:
+            columns: List of column names to transform (None for all numeric).
+            method: "yeo-johnson" or "box-cox" (default from config).
+            standardize: Whether to standardize the output (default from config).
+            inplace: Whether to modify in place (default from config).
+
+        Returns:
+            DataFrame with power transformed values.
+
+        Raises:
+            ValueError: If no data loaded, columns invalid, or parameters invalid.
+        """
+        if self.data is None:
+            raise ValueError("No data loaded. Call load_data() first.")
+
+        inplace = inplace if inplace is not None else self.inplace
+        result = self.data if inplace else self.data.copy()
+
+        if columns is None:
+            columns = self.get_numeric_columns()
+
+        if not columns:
+            logger.warning("No numerical columns found for power transformation")
+            return result
+
+        method_val = (method or self.power_method).lower()
+        if method_val not in {"yeo-johnson", "box-cox"}:
+            raise ValueError("method must be 'yeo-johnson' or 'box-cox'")
+
+        standardize_val = (
+            self.power_standardize if standardize is None else bool(standardize)
+        )
+
+        for col in columns:
+            if col not in result.columns:
+                raise ValueError(f"Column '{col}' not found in data")
+            if not pd.api.types.is_numeric_dtype(result[col]):
+                logger.warning(
+                    f"Column '{col}' is not numeric, skipping power transform"
+                )
+                continue
+
+            x = result[[col]].to_numpy(dtype=float)
+            if method_val == "box-cox" and np.any(x <= 0):
+                raise ValueError(
+                    f"Power transform 'box-cox' requires strictly positive values "
+                    f"in column '{col}'"
+                )
+
+            transformer = PowerTransformer(
+                method=method_val, standardize=standardize_val, copy=True
+            )
+            transformed = transformer.fit_transform(x).reshape(-1)
+            result[col] = transformed
+
+            self.scaling_params[col] = {
+                "method": "power",
+                "transformer": transformer,
+                "power_method": method_val,
+                "standardize": standardize_val,
+            }
+            logger.info(
+                f"Power transformed '{col}' using method={method_val}, "
+                f"standardize={standardize_val}"
+            )
+
+        if not inplace:
+            self.data = result
+
+        return result
+
     def inverse_transform(
         self,
         scaled_data: Optional[pd.DataFrame] = None,
@@ -373,12 +647,22 @@ class FeatureScaler:
                     data[col] = col_mean
                 else:
                     data[col] = data[col] * col_std + col_mean
+            elif method in {"robust", "quantile", "power"}:
+                transformer = params.get("transformer")
+                if transformer is None:
+                    raise ValueError(
+                        f"Missing transformer for inverse transform of '{col}'"
+                    )
+                inverse = transformer.inverse_transform(
+                    data[[col]].to_numpy(dtype=float)
+                ).reshape(-1)
+                data[col] = inverse
 
             logger.info(f"Inverse transformed column '{col}'")
 
         return data
 
-    def get_scaling_summary(self) -> Dict[str, Dict[str, float]]:
+    def get_scaling_summary(self) -> Dict[str, Dict[str, Any]]:
         """Get summary of scaling parameters used.
 
         Returns:
@@ -428,7 +712,7 @@ def main() -> None:
     parser.add_argument(
         "--method",
         type=str,
-        choices=["min_max", "z_score", "both"],
+        choices=["min_max", "z_score", "robust", "quantile", "power", "both"],
         default="both",
         help="Scaling method to apply",
     )
@@ -468,6 +752,18 @@ def main() -> None:
             print("\n=== Applying Z-Score Normalization ===")
             scaler.z_score_normalize(columns=args.columns)
 
+        if args.method == "robust":
+            print("\n=== Applying Robust Scaling ===")
+            scaler.robust_scale(columns=args.columns)
+
+        if args.method == "quantile":
+            print("\n=== Applying Quantile Transformation ===")
+            scaler.quantile_transform(columns=args.columns)
+
+        if args.method == "power":
+            print("\n=== Applying Power Transformation ===")
+            scaler.power_transform(columns=args.columns)
+
         print("\n=== Scaling Summary ===")
         summary = scaler.get_scaling_summary()
         for col, params in summary.items():
@@ -478,10 +774,27 @@ def main() -> None:
                     f"(range: [{params['min']:.4f}, {params['max']:.4f}] "
                     f"-> {params['feature_range']})"
                 )
-            else:
+            elif method == "z_score":
                 print(
                     f"  {col}: {method} "
                     f"(mean: {params['mean']:.4f}, std: {params['std']:.4f})"
+                )
+            elif method == "robust":
+                print(
+                    f"  {col}: {method} "
+                    f"(quantile_range: {params['quantile_range']})"
+                )
+            elif method == "quantile":
+                print(
+                    f"  {col}: {method} "
+                    f"(output_distribution: {params['output_distribution']}, "
+                    f"n_quantiles: {params['n_quantiles']})"
+                )
+            elif method == "power":
+                print(
+                    f"  {col}: {method} "
+                    f"(method: {params['power_method']}, "
+                    f"standardize: {params['standardize']})"
                 )
 
         if args.output:
