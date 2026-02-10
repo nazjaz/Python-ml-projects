@@ -1,0 +1,34 @@
+# Random Forest Classifier Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of trees in forest
+  n_estimators: 100
+  
+  # Maximum depth of trees
+  # null: nodes expanded until pure
+  max_depth: null
+  
+  # Minimum samples required to split node
+  min_samples_split: 2
+  
+  # Minimum samples required at leaf node
+  min_samples_leaf: 1
+  
+  # Maximum features to consider for split
+  # Options: int, "sqrt", "log2", float (0-1)
+  max_features: "sqrt"
+  
+  # Whether to use bootstrap sampling
+  bootstrap: true
+  
+  # Random seed
+  random_state: null
