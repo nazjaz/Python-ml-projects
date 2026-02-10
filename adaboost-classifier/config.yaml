@@ -1,0 +1,20 @@
+# AdaBoost Classifier Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of weak learners (decision stumps)
+  n_estimators: 50
+  
+  # Learning rate (shrinkage)
+  learning_rate: 1.0
+  
+  # Random seed
+  random_state: null
