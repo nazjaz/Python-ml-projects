@@ -1,0 +1,16 @@
+# Neural style transfer: content and style loss optimization
+
+logging:
+  level: "INFO"
+  file: "logs/app.log"
+
+style_transfer:
+  num_steps: 200
+  content_weight: 1.0
+  style_weight: 1000.0
+  learning_rate: 1.0
+  extractor_channels: 16
+  image_size: 8
+  content_index: 0
+  style_index: 1
+  random_seed: 0
