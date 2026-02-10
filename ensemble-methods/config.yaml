@@ -1,0 +1,26 @@
+# Ensemble Methods Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Number of estimators for bagging
+  n_estimators: 10
+  
+  # Max samples for bagging (0-1)
+  max_samples: 0.8
+  
+  # Max features for bagging (0-1)
+  max_features: 0.8
+  
+  # Cross-validation folds for stacking
+  cv: 5
+  
+  # Random seed
+  random_state: null
