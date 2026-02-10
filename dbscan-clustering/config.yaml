@@ -1,0 +1,22 @@
+# DBSCAN Clustering Configuration
+
+# Logging configuration
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+  level: "INFO"
+  
+  # Log file path
+  file: "logs/app.log"
+
+# Model configuration
+model:
+  # Maximum distance between two samples for one to be considered
+  # in the neighborhood of the other
+  eps: 0.5
+  
+  # Minimum number of samples in a neighborhood for a point to be
+  # considered a core point
+  min_samples: 5
+  
+  # Distance metric (currently only euclidean supported)
+  distance_metric: "euclidean"
